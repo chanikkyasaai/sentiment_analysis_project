@@ -2,7 +2,7 @@
 
 A web application that uses machine learning to analyze the sentiment of student course feedback as positive, negative, or neutral.
 
-#Chanikya Nelapatla
+# Chanikya Nelapatla
 
 ![Sentiment Analysis Screenshot](static/confusion_matrix.png)
 
