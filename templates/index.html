@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback Sentiment Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Course Feedback Analysis</h1>
+            <p>Submit your feedback to analyze its sentiment</p>
+        </header>
+
+        <main>
+            <form method="POST" action="/">
+                <div class="form-group">
+                    <label for="feedback">Your Feedback:</label>
+                    <textarea name="feedback" id="feedback" rows="6" placeholder="Enter your course feedback here...">{{ feedback_text }}</textarea>
+                </div>
+                <button type="submit" class="submit-btn">Analyze Sentiment</button>
+            </form>
+
+            {% if prediction %}
+            <div class="result-container">
+                <h2>Analysis Result</h2>
+                <div class="sentiment-result {{ prediction.lower() }}">
+                    Your feedback sentiment is: <span>{{ prediction }}</span>
+                </div>
+                
+                <!-- Debugging information -->
+                <div class="debug-info">
+                    <p><strong>Raw Prediction Value:</strong> {{ raw_prediction }}</p>
+                    
+                    <!-- Important keywords that influenced the classification -->
+                    <div class="keywords-section">
+                        <p><strong>Important Keywords:</strong></p>
+                        <div class="keyword-chips">
+                            {% if important_keywords %}
+                                {% for keyword in important_keywords %}
+                                    <span class="keyword-chip">{{ keyword }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="no-keywords">No keywords extracted</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if confidence_scores %}
+                    <p><strong>Confidence Scores:</strong></p>
+                    <ul>
+                        {% for label, score in confidence_scores.items() %}
+                        <li>{{ label }}: {{ score }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="visualization-container">
+                <div class="wordcloud-container full-width">
+                    <h2>Common Feedback Keywords</h2>
+                    {% if has_wordcloud %}
+                    <img src="{{ url_for('static', filename='wordcloud.png') }}" alt="WordCloud of Feedback" class="wordcloud">
+                    {% else %}
+                    <p class="no-data">WordCloud not available. Generate it using feedback data.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Recent Predictions -->
+            <div class="recent-predictions">
+                <h2>Recent Predictions</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feedback Text</th>
+                            <th>Raw Prediction</th>
+                            <th>Sentiment</th>
+                            <th>Top Keywords</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in debug_info %}
+                        <tr>
+                            <td>{{ item.text }}</td>
+                            <td>{{ item.raw_prediction }}</td>
+                            <td class="{{ item.sentiment.lower() }}">{{ item.sentiment }}</td>
+                            <td>
+                                {% if item.keywords %}
+                                    {{ item.keywords|join(', ') }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <footer>
+            <p>Sentiment Analysis with Machine Learning | Created with Flask & scikit-learn</p>
+        </footer>
+    </div>
+</body>
+</html>
