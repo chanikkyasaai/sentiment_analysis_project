@@ -2,8 +2,6 @@
 
 A web application that uses machine learning to analyze the sentiment of student course feedback as positive, negative, or neutral.
 
-# Chanikya Nelapatla
-
 ![Sentiment Analysis Screenshot](static/confusion_matrix.png)
 
 ## Project Overview
@@ -148,10 +146,10 @@ As of now, the sentiment analysis model has some limitations in classification a
 5. Push to the branch: `git push origin feature/new-feature`
 6. Submit a pull request
 
-## License
+## Author
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is maintained by Chanikya Nelapatla.
 
----
-
-Created by Student Feedback Analysis Team
+For questions or support, please reach out via:
+- GitHub: [@chanikkyasaai](https://github.com/chanikkyasaai)
+- Email: chanikyac01@outlook.com
